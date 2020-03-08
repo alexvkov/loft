@@ -1,0 +1,47 @@
+.form__error::-webkit-input-placeholder{
+	color: red;
+}
+.form__error::-moz-input-placeholder{
+	color: red;
+}
+.form__error:-moz-input-placeholder{
+	color: red;
+}
+.form__error:-ms-input-placeholder{
+	color: red;
+}
+
+.text_error{
+	color: red;
+}
+
+.artik{
+	display:none;
+}
+
+.artik__box{
+	position: relative;
+    width: 300px;
+    padding: 16px;
+    background: #fff;
+    color: #3c3c3c;
+    font: 14px/18px Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+    box-shadow: 0 0 0 6px rgba(153, 153, 153, .3);
+    border-radius: 6px;
+}
+
+.artik__box_close {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    font-size: 20px;
+    line-height: 15px;
+    color: #999;
+    cursor: pointer;
+}
+
+.artik__text{
+	text-align: center;
+	font-size: 15px;
+	color: #000;
+}
