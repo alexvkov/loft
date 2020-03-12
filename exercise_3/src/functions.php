@@ -64,12 +64,9 @@ function arrayDiff($arr)
     }
 }
 
-<<<<<<< HEAD
-function csvSumNum(){
-=======
+
 function csvSumNum()
 {
->>>>>>> f243f32c73a69d0d74b318b093e710b11d662ec5
     for ($i = 0; $i < 50; $i++) {
         $arr[$i] = rand(1, 100);
     }
@@ -92,8 +89,6 @@ function csvSumNum()
         }
     }
     echo "Сумма: " . $sum . "<br>";
-<<<<<<< HEAD
-=======
 }
 
 function parseUrlJson()
@@ -108,5 +103,5 @@ function parseUrlJson()
             echo "Page_id : " . $value['pageid'];
         }
     }
->>>>>>> f243f32c73a69d0d74b318b093e710b11d662ec5
+
 }
