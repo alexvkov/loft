@@ -1,45 +1,67 @@
 <?php
-require ('Gps.php');
-require ('Driver.php');
-require ('TariffInterface.php');
+require_once('Gps.php');
+require_once('Driver.php');
+require_once('TariffInterface.php');
 
 abstract class CarSharing
 {
-    protected $pricePerKilometer= 0;
-    protected $pricePerMinute=0;
-    protected $minDriverAge=18;
-    protected $maxDriverAge=65;
-    protected $gps=false;
-    protected $addDriver = false;
+    protected $pricePerKilometer = 0;
+    protected $pricePerMinute = 0;
+    protected $minDriverAge = 18;
+    protected $maxDriverAge = 65;
 
     protected function checkAge($age)
     {
-        if($age>=$this->minDriverAge && $age<=$this->maxDriverAge){
+        if ($age >= $this->minDriverAge && $age <= $this->maxDriverAge) {
             return $age;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public function calculate($distance, $time, $age, $addGps = false, $addDriver = false){
-        if ($this->checkAge($age)===false){
+    //функция Округление до 60 минут в большую сторону
+    public function roundingToWholeHours($time)
+    {
+        $wholeMinutes = ceil($time / 60);
+        return $wholeMinutes;
+    }
+
+    // Функция округления до суток
+    public function roundingToTheDay($time)
+    {
+        if (($time % (60 * 24)) < 30) {
+            return floor($time / ((24 * 60) + 30));
+        } else {
+            return ceil($time / ((24 * 60) + 30));
+        }
+    }
+
+    //последние 2 параметра влияют на запуск функций подсчёта суток или часов
+    public function calculate($distance, $time, $age, $addGps = false, $addDriver = false, $hourlyOn = false, $dailyOn = false)
+    {
+        if ($this->checkAge($age) === false) {
             echo "Неподходящий возраст";
             return 0;
         }
-        $price=($this->$pricePerKilometer*$distance)+($this->$pricePerMinute*$time);
-        //если возраст попадает в диапазон от 18-21 то добавляем 10% к тарифу
-        if($age>=18 && $age<=21){
-            $price *= 1.1;
-        }else{
-            $price *= 1;
+        if ($hourlyOn) {
+            $timeHourly = $this->roundingToWholeHours($time);
+            $price = ($this->pricePerKilometer * $distance) + ($this->pricePerMinute * $timeHourly);
+        } elseif ($dailyOn) {
+            $timeDaily = $this->roundingToTheDay($time);
+            $price = ($this->pricePerKilometer * $distance) + ($this->pricePerMinute * $timeDaily);
+        } else {
+            $price = ($this->pricePerKilometer * $distance) + ($this->pricePerMinute * $time);
         }
         if ($addGps) {
-            $price += $this->addGps($time);
+            $price += $this->setGps($time);
         }
-        if($addDriver){
-            $price +=$this->$addDriver;
+        if ($addDriver) {
+            $price += $this->addDriver();
         }
-        return $price;
+        if ($age >= 18 && $age <= 21) {
+            $price *= 1.1;
+        }
+        echo $price;
 
     }
 }

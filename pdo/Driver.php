@@ -3,8 +3,7 @@
 
 trait Driver
 {
-    private $addDriver = false;
-    private function addDriver()
+    public function addDriver()
     {
         return 100;
     }
